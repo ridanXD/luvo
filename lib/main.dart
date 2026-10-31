@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'pages/buat_pesanan_page.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Luvo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.tema(),
-      home: const Scaffold(body: Center(child: Text('Luvo'))),
+      home: const BuatPesananPage(),
     );
   }
 }
