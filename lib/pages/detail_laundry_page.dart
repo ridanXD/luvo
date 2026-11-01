@@ -81,3 +81,4 @@ class DetailLaundryPage extends StatelessWidget {
     );
   }
 }
+
