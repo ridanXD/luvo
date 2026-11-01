@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/dummy_pesanan.dart';
 import '../models/pesanan.dart';
 import '../theme/app_colors.dart';
+import '../utils/format_tanggal.dart';
 import '../widgets/kartu_bagian.dart';
 import '../widgets/pilihan_layanan.dart';
 
@@ -17,12 +18,42 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
   LayananPesanan? layananDipilih;
   final beratController = TextEditingController();
   final catatanController = TextEditingController();
+  DateTime? tanggalJemput;
+  String? jamJemput;
+  TimeOfDay jamAntar = jamAntarDefault;
 
   @override
   void dispose() {
     beratController.dispose();
     catatanController.dispose();
     super.dispose();
+  }
+
+  Future<void> pilihTanggal() async {
+    final DateTime hariIni = DateTime.now();
+    final DateTime? hasil = await showDatePicker(
+      context: context,
+      initialDate: tanggalJemput ?? hariIni,
+      firstDate: hariIni,
+      lastDate: hariIni.add(const Duration(days: 7)),
+    );
+    if (hasil != null) {
+      setState(() {
+        tanggalJemput = hasil;
+      });
+    }
+  }
+
+  Future<void> pilihJamAntar() async {
+    final TimeOfDay? hasil = await showTimePicker(
+      context: context,
+      initialTime: jamAntar,
+    );
+    if (hasil != null) {
+      setState(() {
+        jamAntar = hasil;
+      });
+    }
   }
 
   @override
@@ -97,6 +128,67 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
               maxLines: 3,
               decoration: const InputDecoration(
                 hintText: 'Contoh: pisahkan pakaian putih (opsional)',
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          KartuBagian(
+            judul: 'Jadwal Penjemputan',
+            ikon: Icons.calendar_month,
+            isi: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                OutlinedButton.icon(
+                  onPressed: pilihTanggal,
+                  icon: const Icon(Icons.event),
+                  label: Text(
+                    tanggalJemput == null
+                        ? 'Pilih tanggal'
+                        : formatTanggal(tanggalJemput!),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text('Pilih jam penjemputan:'),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: daftarSlotJemput.map((slot) {
+                    return ChoiceChip(
+                      label: Text(
+                        slot.tersedia ? slot.jam : '${slot.jam} (penuh)',
+                      ),
+                      selected: jamJemput == slot.jam,
+                      selectedColor: AppColors.secondary,
+                      labelStyle: TextStyle(
+                        color: jamJemput == slot.jam
+                            ? AppColors.putih
+                            : AppColors.teks,
+                      ),
+                      onSelected: slot.tersedia
+                          ? (pilih) {
+                              setState(() {
+                                jamJemput = slot.jam;
+                              });
+                            }
+                          : null,
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          KartuBagian(
+            judul: 'Jadwal Pengantaran',
+            ikon: Icons.delivery_dining,
+            isi: ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text('Diantar pukul ${formatJam(jamAntar)}'),
+              subtitle: const Text('Otomatis dari jam antar di profil'),
+              trailing: TextButton(
+                onPressed: pilihJamAntar,
+                child: const Text('Ubah'),
               ),
             ),
           ),
