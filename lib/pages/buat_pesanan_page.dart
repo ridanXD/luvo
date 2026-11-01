@@ -15,6 +15,15 @@ class BuatPesananPage extends StatefulWidget {
 
 class _BuatPesananPageState extends State<BuatPesananPage> {
   LayananPesanan? layananDipilih;
+  final beratController = TextEditingController();
+  final catatanController = TextEditingController();
+
+  @override
+  void dispose() {
+    beratController.dispose();
+    catatanController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +67,37 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
                   },
                 );
               }).toList(),
+            ),
+          ),
+          const SizedBox(height: 16),
+          KartuBagian(
+            judul: 'Perkiraan Berat',
+            ikon: Icons.scale,
+            isi: TextField(
+              controller: beratController,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
+                hintText: 'Contoh: 3',
+                suffixText: 'kg',
+                helperText: 'Berat akhir dikonfirmasi setelah ditimbang mitra',
+              ),
+              onChanged: (teks) {
+                setState(() {});
+              },
+            ),
+          ),
+          const SizedBox(height: 16),
+          KartuBagian(
+            judul: 'Catatan Khusus',
+            ikon: Icons.edit_note,
+            isi: TextField(
+              controller: catatanController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                hintText: 'Contoh: pisahkan pakaian putih (opsional)',
+              ),
             ),
           ),
         ],
