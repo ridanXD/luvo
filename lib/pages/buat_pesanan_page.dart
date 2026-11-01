@@ -240,7 +240,6 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
             isi: ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text('Diantar pukul ${formatJam(jamAntar)}'),
-              subtitle: const Text('Otomatis dari jam antar di profil'),
               trailing: TextButton(
                 onPressed: pilihJamAntar,
                 child: const Text('Ubah'),
