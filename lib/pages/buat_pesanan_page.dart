@@ -56,10 +56,61 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
     }
   }
 
+  double ambilBerat() {
+    final String teks = beratController.text.replaceAll(',', '.');
+    return double.tryParse(teks) ?? 0;
+  }
+
+  String? pesanKurang() {
+    if (layananDipilih == null) {
+      return 'Pilih layanan terlebih dahulu';
+    }
+    if (ambilBerat() <= 0) {
+      return 'Isi perkiraan berat lebih dari 0 kg';
+    }
+    if (tanggalJemput == null) {
+      return 'Pilih tanggal penjemputan';
+    }
+    if (jamJemput == null) {
+      return 'Pilih jam penjemputan';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String? pesan = pesanKurang();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Buat Pesanan')),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (pesan != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    pesan,
+                    style: const TextStyle(color: AppColors.merah),
+                  ),
+                ),
+              ElevatedButton(
+                onPressed: pesan == null
+                    ? () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Form sudah lengkap')),
+                        );
+                      }
+                    : null,
+                child: const Text('Lihat Ringkasan'),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -109,10 +160,13 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Contoh: 3',
                 suffixText: 'kg',
                 helperText: 'Berat akhir dikonfirmasi setelah ditimbang mitra',
+                errorText: beratController.text.isNotEmpty && ambilBerat() <= 0
+                    ? 'Berat harus angka lebih dari 0'
+                    : null,
               ),
               onChanged: (teks) {
                 setState(() {});
@@ -160,6 +214,7 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
                       ),
                       selected: jamJemput == slot.jam,
                       selectedColor: AppColors.secondary,
+                      checkmarkColor: AppColors.putih,
                       labelStyle: TextStyle(
                         color: jamJemput == slot.jam
                             ? AppColors.putih
