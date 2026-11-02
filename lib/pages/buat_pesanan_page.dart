@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/dummy_pesanan.dart';
 import '../models/pesanan.dart';
 import '../theme/app_colors.dart';
+import '../utils/format_rupiah.dart';
 import '../utils/format_tanggal.dart';
 import '../widgets/kartu_bagian.dart';
 import '../widgets/pilihan_layanan.dart';
@@ -77,6 +78,98 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
     return null;
   }
 
+  int hitungBiayaLayanan() {
+    if (layananDipilih == null) {
+      return 0;
+    }
+    return (layananDipilih!.hargaPerKg * ambilBerat()).round();
+  }
+
+  int hitungBiayaAntarJemput() {
+    return (tarifAntarJemputPerKm * jarakDummy).round();
+  }
+
+  int hitungTotal() {
+    return hitungBiayaLayanan() + hitungBiayaAntarJemput();
+  }
+
+  void kirimPesanan() {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Kirim Pesanan?'),
+          content: Text(
+            'Total estimasi ${formatRupiah(hitungTotal())}. Pesanan akan dikirim ke mitra laundry.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                tampilkanDialogSukses();
+              },
+              child: const Text('Kirim'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void tampilkanDialogSukses() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          icon: const Icon(
+            Icons.check_circle,
+            color: AppColors.secondary,
+            size: 64,
+          ),
+          title: const Text('Pesanan Terkirim'),
+          content: Text(
+            'Status: ${teksStatus(StatusPesanan.menungguKonfirmasi)}\nMitra laundry akan segera mengonfirmasi pesananmu.',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget barisHarga(String label, int harga, bool tebal) {
+    final TextStyle gaya = TextStyle(
+      fontWeight: tebal ? FontWeight.bold : FontWeight.normal,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: gaya),
+          Text(formatRupiah(harga), style: gaya),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final String? pesan = pesanKurang();
@@ -98,14 +191,8 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
                   ),
                 ),
               ElevatedButton(
-                onPressed: pesan == null
-                    ? () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Form sudah lengkap')),
-                        );
-                      }
-                    : null,
-                child: const Text('Lihat Ringkasan'),
+                onPressed: pesan == null ? kirimPesanan : null,
+                child: const Text('Kirim Pesanan'),
               ),
             ],
           ),
@@ -245,6 +332,40 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
                 child: const Text('Ubah'),
               ),
             ),
+          ),
+          const SizedBox(height: 16),
+          KartuBagian(
+            judul: 'Rincian Harga',
+            ikon: Icons.payments,
+            isi: layananDipilih == null || ambilBerat() <= 0
+                ? const Text(
+                    'Pilih layanan dan isi berat untuk melihat harga',
+                    style: TextStyle(color: AppColors.teksAbu),
+                  )
+                : Column(
+                    children: [
+                      barisHarga(
+                        'Layanan (${beratController.text} kg x ${formatRupiah(layananDipilih!.hargaPerKg)})',
+                        hitungBiayaLayanan(),
+                        false,
+                      ),
+                      barisHarga(
+                        'Antar-jemput ($jarakDummy km)',
+                        hitungBiayaAntarJemput(),
+                        false,
+                      ),
+                      const Divider(),
+                      barisHarga('Total Estimasi', hitungTotal(), true),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Harga akhir dikonfirmasi setelah cucian ditimbang mitra.',
+                        style: TextStyle(
+                          color: AppColors.teksAbu,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
