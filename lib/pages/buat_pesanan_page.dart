@@ -93,6 +93,67 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
     return hitungBiayaLayanan() + hitungBiayaAntarJemput();
   }
 
+  void kirimPesanan() {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Kirim Pesanan?'),
+          content: Text(
+            'Total estimasi ${formatRupiah(hitungTotal())}. Pesanan akan dikirim ke mitra laundry.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                tampilkanDialogSukses();
+              },
+              child: const Text('Kirim'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void tampilkanDialogSukses() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          icon: const Icon(
+            Icons.check_circle,
+            color: AppColors.secondary,
+            size: 64,
+          ),
+          title: const Text('Pesanan Terkirim'),
+          content: Text(
+            'Status: ${teksStatus(StatusPesanan.menungguKonfirmasi)}\nMitra laundry akan segera mengonfirmasi pesananmu.',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget barisHarga(String label, int harga, bool tebal) {
     final TextStyle gaya = TextStyle(
       fontWeight: tebal ? FontWeight.bold : FontWeight.normal,
@@ -130,14 +191,8 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
                   ),
                 ),
               ElevatedButton(
-                onPressed: pesan == null
-                    ? () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Form sudah lengkap')),
-                        );
-                      }
-                    : null,
-                child: const Text('Lihat Ringkasan'),
+                onPressed: pesan == null ? kirimPesanan : null,
+                child: const Text('Kirim Pesanan'),
               ),
             ],
           ),
