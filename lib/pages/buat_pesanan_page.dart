@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/dummy_pesanan.dart';
 import '../models/pesanan.dart';
 import '../theme/app_colors.dart';
+import '../utils/format_rupiah.dart';
 import '../utils/format_tanggal.dart';
 import '../widgets/kartu_bagian.dart';
 import '../widgets/pilihan_layanan.dart';
@@ -75,6 +76,37 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
       return 'Pilih jam penjemputan';
     }
     return null;
+  }
+
+  int hitungBiayaLayanan() {
+    if (layananDipilih == null) {
+      return 0;
+    }
+    return (layananDipilih!.hargaPerKg * ambilBerat()).round();
+  }
+
+  int hitungBiayaAntarJemput() {
+    return (tarifAntarJemputPerKm * jarakDummy).round();
+  }
+
+  int hitungTotal() {
+    return hitungBiayaLayanan() + hitungBiayaAntarJemput();
+  }
+
+  Widget barisHarga(String label, int harga, bool tebal) {
+    final TextStyle gaya = TextStyle(
+      fontWeight: tebal ? FontWeight.bold : FontWeight.normal,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: gaya),
+          Text(formatRupiah(harga), style: gaya),
+        ],
+      ),
+    );
   }
 
   @override
@@ -245,6 +277,40 @@ class _BuatPesananPageState extends State<BuatPesananPage> {
                 child: const Text('Ubah'),
               ),
             ),
+          ),
+          const SizedBox(height: 16),
+          KartuBagian(
+            judul: 'Rincian Harga',
+            ikon: Icons.payments,
+            isi: layananDipilih == null || ambilBerat() <= 0
+                ? const Text(
+                    'Pilih layanan dan isi berat untuk melihat harga',
+                    style: TextStyle(color: AppColors.teksAbu),
+                  )
+                : Column(
+                    children: [
+                      barisHarga(
+                        'Layanan (${beratController.text} kg x ${formatRupiah(layananDipilih!.hargaPerKg)})',
+                        hitungBiayaLayanan(),
+                        false,
+                      ),
+                      barisHarga(
+                        'Antar-jemput ($jarakDummy km)',
+                        hitungBiayaAntarJemput(),
+                        false,
+                      ),
+                      const Divider(),
+                      barisHarga('Total Estimasi', hitungTotal(), true),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Harga akhir dikonfirmasi setelah cucian ditimbang mitra.',
+                        style: TextStyle(
+                          color: AppColors.teksAbu,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
