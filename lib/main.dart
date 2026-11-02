@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'pages/order_status_page.dart';
+import 'theme/app_theme.dart';
 import 'core/theme.dart';
 import 'views/login_view.dart';
 
@@ -11,6 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      home: const OrderStatusPage(),
       title: 'Luvo App',
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.background,
