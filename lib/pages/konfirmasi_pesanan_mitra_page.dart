@@ -29,6 +29,14 @@ class _KonfirmasiPesananMitraPageState
     jamAntar: jamAntarDefault,
   );
 
+  final alasanController = TextEditingController();
+
+  @override
+  void dispose() {
+    alasanController.dispose();
+    super.dispose();
+  }
+
   int hitungTotal() {
     final int biayaLayanan = (pesanan.layanan.hargaPerKg * pesanan.beratKg)
         .round();
@@ -83,6 +91,47 @@ class _KonfirmasiPesananMitraPageState
     );
   }
 
+  void tolakPesanan() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Tolak Pesanan?'),
+          content: TextField(
+            controller: alasanController,
+            maxLines: 3,
+            decoration: const InputDecoration(
+              labelText: 'Alasan penolakan',
+              hintText: 'Contoh: kapasitas penuh hari ini (opsional)',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  pesanan.status = StatusPesanan.ditolak;
+                  pesanan.alasanTolak = alasanController.text;
+                });
+                tampilkanPesan('Pesanan ditolak');
+              },
+              child: const Text(
+                'Tolak',
+                style: TextStyle(color: AppColors.merah),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget barisInfo(String label, String isi) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -112,9 +161,27 @@ class _KonfirmasiPesananMitraPageState
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: ElevatedButton(
-            onPressed: sudahDiproses ? null : terimaPesanan,
-            child: const Text('Terima'),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: sudahDiproses ? null : tolakPesanan,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.merah,
+                    side: const BorderSide(color: AppColors.merah),
+                    minimumSize: const Size(0, 50),
+                  ),
+                  child: const Text('Tolak'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: sudahDiproses ? null : terimaPesanan,
+                  child: const Text('Terima'),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -124,19 +191,32 @@ class _KonfirmasiPesananMitraPageState
           KartuBagian(
             judul: 'Status Pesanan',
             ikon: Icons.info,
-            isi: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: warnaStatus(),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                teksStatus(pesanan.status),
-                style: const TextStyle(
-                  color: AppColors.putih,
-                  fontWeight: FontWeight.bold,
+            isi: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: warnaStatus(),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    teksStatus(pesanan.status),
+                    style: const TextStyle(
+                      color: AppColors.putih,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+                if (pesanan.alasanTolak.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text('Alasan: ${pesanan.alasanTolak}'),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
