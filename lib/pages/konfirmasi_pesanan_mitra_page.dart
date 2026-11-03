@@ -47,6 +47,42 @@ class _KonfirmasiPesananMitraPageState
     return AppColors.teksAbu;
   }
 
+  void tampilkanPesan(String teks) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(teks)));
+  }
+
+  void terimaPesanan() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Terima Pesanan?'),
+          content: Text(
+            'Pesanan dari ${pesanan.namaPelanggan} akan diterima. Harga akhir dikonfirmasi setelah cucian ditimbang.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  pesanan.status = StatusPesanan.diterima;
+                });
+                tampilkanPesan('Pesanan diterima');
+              },
+              child: const Text('Terima'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget barisInfo(String label, String isi) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -68,8 +104,20 @@ class _KonfirmasiPesananMitraPageState
 
   @override
   Widget build(BuildContext context) {
+    final bool sudahDiproses =
+        pesanan.status != StatusPesanan.menungguKonfirmasi;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Pesanan Masuk')),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ElevatedButton(
+            onPressed: sudahDiproses ? null : terimaPesanan,
+            child: const Text('Terima'),
+          ),
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
