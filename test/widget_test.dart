@@ -1,30 +1,47 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:luvo/main.dart';
+import 'package:luvo/views/dashboard_view.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Smoke test login screen render with rounded textfields', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    expect(find.text('Masuk'), findsOneWidget);
+    expect(find.byType(TextField), findsNWidgets(2));
+
+    // Verify textfields have rounded border radius (12.0)
+    final textFields = tester.widgetList<TextField>(find.byType(TextField));
+    for (final tf in textFields) {
+      final border = tf.decoration?.border as OutlineInputBorder?;
+      expect(border?.borderRadius, BorderRadius.circular(12));
+    }
+  });
+
+  testWidgets('Email validation requires @ on login', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Enter email without @
+    await tester.enterText(find.byType(TextField).at(0), 'invalidemail');
+    await tester.enterText(find.byType(TextField).at(1), '123');
+    await tester.tap(find.text('Login'));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify error message for missing @
+    expect(find.text('Email harus mengandung karakter @'), findsOneWidget);
+  });
+
+  testWidgets('Dashboard displays Selamat Datang without Role: User', (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(
+      home: DashboardView(),
+    ));
+
+    // Verify 'Selamat Datang' is present
+    expect(find.text('Selamat Datang'), findsOneWidget);
+
+    // Verify 'Role: USER' and role texts are NOT present
+    expect(find.textContaining('Role:'), findsNothing);
+    expect(find.textContaining('USER'), findsNothing);
+    expect(find.textContaining('Merchant:'), findsNothing);
+    expect(find.textContaining('Akses fitur'), findsNothing);
   });
 }
