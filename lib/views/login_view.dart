@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../controllers/auth_controller.dart';
 import '../core/theme.dart';
 import 'dashboard_view.dart';
@@ -13,6 +14,17 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final emailC = TextEditingController();
   final passC = TextEditingController();
+  final emailFocus = FocusNode();
+  final passFocus = FocusNode();
+
+  @override
+  void dispose() {
+    emailC.dispose();
+    passC.dispose();
+    emailFocus.dispose();
+    passFocus.dispose();
+    super.dispose();
+  }
 
   void _login() {
     final email = emailC.text.trim();
@@ -45,70 +57,88 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text('Masuk', style: AppFonts.heading(size: 28)),
-              Text('Silakan login ke akun Anda', style: AppFonts.body(color: Colors.grey)),
-              const SizedBox(height: 24),
-              TextField(
-                controller: emailC,
-                keyboardType: TextInputType.emailAddress,
-                style: AppFonts.body(),
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'contoh@email.com',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.secondary, width: 2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: passC,
-                obscureText: true,
-                style: AppFonts.body(),
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text('Masuk', style: AppFonts.heading(size: 28)),
+                Text('Silakan login ke akun Anda', style: AppFonts.body(color: Colors.grey)),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: emailC,
+                  focusNode: emailFocus,
+                  keyboardType: TextInputType.emailAddress,
+                  onTap: () {
+                    emailFocus.requestFocus();
+                    SystemChannels.textInput.invokeMethod('TextInput.show');
+                  },
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  style: AppFonts.body(),
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'contoh@email.com',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.secondary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: passC,
+                  focusNode: passFocus,
+                  obscureText: true,
+                  onTap: () {
+                    passFocus.requestFocus();
+                    SystemChannels.textInput.invokeMethod('TextInput.show');
+                  },
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  style: AppFonts.body(),
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                    ),
                   ),
                 ),
-                onPressed: _login,
-                child: Text('Login', style: AppFonts.heading(size: 16, color: Colors.white)),
-              ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterView())),
-                child: Text('Belum punya akun? Daftar', style: AppFonts.body(color: AppColors.secondary)),
-              ),
-            ],
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.secondary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: _login,
+                  child: Text('Login', style: AppFonts.heading(size: 16, color: Colors.white)),
+                ),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterView())),
+                  child: Text('Belum punya akun? Daftar', style: AppFonts.body(color: AppColors.secondary)),
+                ),
+              ],
+            ),
           ),
         ),
       ),
