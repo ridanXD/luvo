@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-class OrderStatusPage extends StatefulWidget {
-  const OrderStatusPage({super.key});
+class StatusPesananPage extends StatefulWidget {
+  const StatusPesananPage({super.key});
   @override
-  State<OrderStatusPage> createState() => _OrderStatusPageState();
+  State<StatusPesananPage> createState() => _StatusPesananPageState();
 }
 
-class _OrderStatusPageState extends State<OrderStatusPage> {
+class _StatusPesananPageState extends State<StatusPesananPage> {
   int currentStep = 3;
   bool isMitra = true;
 
