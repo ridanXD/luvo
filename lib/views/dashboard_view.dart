@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/navbar.dart';
 import '../controllers/auth_controller.dart';
@@ -15,6 +16,15 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
   String _selectedFilter = 'Semua';
+  final searchC = TextEditingController();
+  final searchFocus = FocusNode();
+
+  @override
+  void dispose() {
+    searchC.dispose();
+    searchFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +59,15 @@ class _DashboardViewState extends State<DashboardView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              controller: searchC,
+              focusNode: searchFocus,
+              onTap: () {
+                searchFocus.requestFocus();
+                SystemChannels.textInput.invokeMethod('TextInput.show');
+              },
+              onTapOutside: (event) {
+                FocusScope.of(context).unfocus();
+              },
               style: GoogleFonts.plusJakartaSans(color: AppColors.teks),
               decoration: InputDecoration(
                 hintText: 'Cari...',

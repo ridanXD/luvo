@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../controllers/auth_controller.dart';
 import '../core/theme.dart';
 import 'dashboard_view.dart';
@@ -13,7 +14,21 @@ class _RegisterViewState extends State<RegisterView> {
   final nameC = TextEditingController();
   final emailC = TextEditingController();
   final passC = TextEditingController();
+  final nameFocus = FocusNode();
+  final emailFocus = FocusNode();
+  final passFocus = FocusNode();
   String role = 'user';
+
+  @override
+  void dispose() {
+    nameC.dispose();
+    emailC.dispose();
+    passC.dispose();
+    nameFocus.dispose();
+    emailFocus.dispose();
+    passFocus.dispose();
+    super.dispose();
+  }
 
   void _register() {
     final name = nameC.text.trim();
@@ -58,6 +73,14 @@ class _RegisterViewState extends State<RegisterView> {
               const SizedBox(height: 24),
               TextField(
                 controller: nameC,
+                focusNode: nameFocus,
+                onTap: () {
+                  nameFocus.requestFocus();
+                  SystemChannels.textInput.invokeMethod('TextInput.show');
+                },
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
                 style: AppFonts.body(),
                 decoration: InputDecoration(
                   labelText: 'Nama Lengkap',
@@ -75,7 +98,15 @@ class _RegisterViewState extends State<RegisterView> {
               const SizedBox(height: 12),
               TextField(
                 controller: emailC,
+                focusNode: emailFocus,
                 keyboardType: TextInputType.emailAddress,
+                onTap: () {
+                  emailFocus.requestFocus();
+                  SystemChannels.textInput.invokeMethod('TextInput.show');
+                },
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
                 style: AppFonts.body(),
                 decoration: InputDecoration(
                   labelText: 'Email',
@@ -94,7 +125,15 @@ class _RegisterViewState extends State<RegisterView> {
               const SizedBox(height: 12),
               TextField(
                 controller: passC,
+                focusNode: passFocus,
                 obscureText: true,
+                onTap: () {
+                  passFocus.requestFocus();
+                  SystemChannels.textInput.invokeMethod('TextInput.show');
+                },
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
                 style: AppFonts.body(),
                 decoration: InputDecoration(
                   labelText: 'Password',
