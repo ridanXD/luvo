@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
+import 'package:flutter/services.dart';
+import '../components/navbar.dart';
 import '../core/theme.dart';
 import '../models/laundry.dart';
 import '../pages/katalog_laundry_page.dart';
@@ -14,7 +16,9 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  int _selectedIndex = 0;
   final TextEditingController searchC = TextEditingController();
+  final FocusNode searchFocus = FocusNode();
 
   // Mengambil data user yang sedang login dari AuthController milik temanmu
   final user = AuthController.instance.currentUser;
@@ -35,6 +39,7 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   void dispose() {
     searchC.dispose();
+    searchFocus.dispose();
     super.dispose();
   }
 
@@ -101,19 +106,27 @@ class _DashboardViewState extends State<DashboardView> {
               'Temukan layanan laundry terbaik untuk kebutuhanmu.',
               style: AppFonts.body(color: Colors.grey),
             ),
-
             const SizedBox(height: 24),
-
-            // KOLOM PENCARIAN
             TextField(
               controller: searchC,
+              focusNode: searchFocus,
+              onTap: () {
+                searchFocus.requestFocus();
+                SystemChannels.textInput.invokeMethod('TextInput.show');
+              },
+              onTapOutside: (event) {
+                FocusScope.of(context).unfocus();
+              },
               onChanged: (value) {
                 setState(() {});
               },
               decoration: InputDecoration(
                 hintText: 'Cari nama atau lokasi laundry...',
                 hintStyle: AppFonts.body(color: Colors.grey),
-                prefixIcon: Icon(Icons.search, color: AppColors.secondary),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.secondary,
+                ),
                 suffixIcon: searchC.text.isNotEmpty
                     ? IconButton(
                         onPressed: () {
@@ -132,13 +145,10 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               ),
             ),
-
-            // HASIL PENCARIAN
             if (searchC.text.isNotEmpty) ...[
               const SizedBox(height: 16),
               Text('Hasil Pencarian', style: AppFonts.heading(size: 18)),
               const SizedBox(height: 10),
-
               if (hasil.isEmpty)
                 Container(
                   padding: const EdgeInsets.all(18),
@@ -167,7 +177,7 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.local_laundry_service,
                             color: AppColors.secondary,
                             size: 30,
@@ -191,7 +201,7 @@ class _DashboardViewState extends State<DashboardView> {
                               ],
                             ),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             color: AppColors.secondary,
                             size: 16,
@@ -202,10 +212,7 @@ class _DashboardViewState extends State<DashboardView> {
                   ),
                 ),
             ],
-
             const SizedBox(height: 24),
-
-            // BANNER KATALOG
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -257,6 +264,14 @@ class _DashboardViewState extends State<DashboardView> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Navbar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }
