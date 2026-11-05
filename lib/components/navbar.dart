@@ -6,11 +6,7 @@ class Navbar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int>? onTap;
 
-  const Navbar({
-    super.key,
-    this.currentIndex = 0,
-    this.onTap,
-  });
+  const Navbar({super.key, this.currentIndex = 0, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +31,14 @@ class Navbar extends StatelessWidget {
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
-        unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-          fontSize: 12,
-        ),
+        unselectedLabelStyle: GoogleFonts.plusJakartaSans(fontSize: 12),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long),
             label: 'Order',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );

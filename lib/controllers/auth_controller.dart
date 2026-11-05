@@ -6,8 +6,18 @@ class AuthController extends ChangeNotifier {
   AuthController._();
 
   final List<UserModel> _users = [
-    UserModel(name: 'Demo User', email: 'user@test.com', password: '123', role: 'user'),
-    UserModel(name: 'Demo Merchant', email: 'merchant@test.com', password: '123', role: 'merchant'),
+    UserModel(
+      name: 'Demo User',
+      email: 'user@test.com',
+      password: '123',
+      role: 'user',
+    ),
+    UserModel(
+      name: 'Demo Merchant',
+      email: 'merchant@test.com',
+      password: '123',
+      role: 'merchant',
+    ),
   ];
 
   UserModel? currentUser;
@@ -20,7 +30,9 @@ class AuthController extends ChangeNotifier {
       return 'Email harus mengandung karakter @';
     }
     try {
-      currentUser = _users.firstWhere((u) => u.email == email && u.password == password);
+      currentUser = _users.firstWhere(
+        (u) => u.email == email && u.password == password,
+      );
       notifyListeners();
       return null;
     } catch (_) {
@@ -36,7 +48,12 @@ class AuthController extends ChangeNotifier {
       return 'Email harus mengandung karakter @';
     }
     if (_users.any((u) => u.email == email)) return 'Email sudah terdaftar!';
-    final user = UserModel(name: name, email: email, password: password, role: role);
+    final user = UserModel(
+      name: name,
+      email: email,
+      password: password,
+      role: role,
+    );
     _users.add(user);
     currentUser = user;
     notifyListeners();

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../components/navbar.dart';
 import '../core/theme.dart';
 import '../models/laundry.dart';
+import '../pages/order_menu_page.dart';
 import '../pages/katalog_laundry_page.dart';
 import '../pages/detail_laundry_page.dart';
 import '../views/login_view.dart';
@@ -16,7 +17,6 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  int _selectedIndex = 0;
   final TextEditingController searchC = TextEditingController();
   final FocusNode searchFocus = FocusNode();
 
@@ -266,11 +266,18 @@ class _DashboardViewState extends State<DashboardView> {
         ),
       ),
       bottomNavigationBar: Navbar(
-        currentIndex: _selectedIndex,
+        currentIndex: 0,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const OrderMenuPage()),
+            );
+          } else if (index == 2) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Halaman Profile belum tersedia')),
+            );
+          }
         },
       ),
     );

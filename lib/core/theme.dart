@@ -9,9 +9,19 @@ class AppColors {
 }
 
 class AppFonts {
-  static TextStyle heading({double size = 20, FontWeight weight = FontWeight.bold, Color color = AppColors.secondary}) =>
-      GoogleFonts.poppins(fontSize: size, fontWeight: weight, color: color);
+  static TextStyle heading({
+    double size = 20,
+    FontWeight weight = FontWeight.bold,
+    Color color = AppColors.secondary,
+  }) => GoogleFonts.poppins(fontSize: size, fontWeight: weight, color: color);
 
-  static TextStyle body({double size = 14, FontWeight weight = FontWeight.normal, Color color = AppColors.text}) =>
-      GoogleFonts.plusJakartaSans(fontSize: size, fontWeight: weight, color: color);
+  static TextStyle body({
+    double size = 14,
+    FontWeight weight = FontWeight.normal,
+    Color color = AppColors.text,
+  }) => GoogleFonts.plusJakartaSans(
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+  );
 }
