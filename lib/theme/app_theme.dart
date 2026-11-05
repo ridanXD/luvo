@@ -40,9 +40,7 @@ class AppTheme {
         backgroundColor: AppColors.secondary,
         foregroundColor: AppColors.putih,
         minimumSize: const Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -53,10 +51,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: AppColors.secondary,
-          width: 2,
-        ),
+        borderSide: const BorderSide(color: AppColors.secondary, width: 2),
       ),
     ),
   );

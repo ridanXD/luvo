@@ -1,15 +1,12 @@
-
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/laundry.dart';
+import 'buat_pesanan_page.dart';
 
 class DetailLaundryPage extends StatelessWidget {
   final Laundry laundry;
 
-  const DetailLaundryPage({
-    super.key,
-    required this.laundry,
-  });
+  const DetailLaundryPage({super.key, required this.laundry});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +18,22 @@ class DetailLaundryPage extends StatelessWidget {
         title: Text(
           'Detail Laundry',
           style: AppFonts.heading(size: 18, color: Colors.white),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BuatPesananPage(),
+                ),
+              );
+            },
+            child: const Text('Buat Pesanan'),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -43,8 +56,10 @@ class DetailLaundryPage extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text('Lokasi: ${laundry.lokasi}', style: AppFonts.body()),
                     const SizedBox(height: 8),
-                    Text('Jam Operasional: ${laundry.jamOperasional}',
-                        style: AppFonts.body()),
+                    Text(
+                      'Jam Operasional: ${laundry.jamOperasional}',
+                      style: AppFonts.body(),
+                    ),
                   ],
                 ),
               ),
@@ -69,8 +84,10 @@ class DetailLaundryPage extends StatelessWidget {
                       Text(layanan.nama, style: AppFonts.heading(size: 16)),
                       const SizedBox(height: 8),
                       Text('Harga: ${layanan.harga}', style: AppFonts.body()),
-                      Text('Estimasi: ${layanan.estimasi}',
-                          style: AppFonts.body()),
+                      Text(
+                        'Estimasi: ${layanan.estimasi}',
+                        style: AppFonts.body(),
+                      ),
                     ],
                   ),
                 ),
@@ -81,4 +98,3 @@ class DetailLaundryPage extends StatelessWidget {
     );
   }
 }
-
