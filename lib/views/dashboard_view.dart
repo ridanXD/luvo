@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../controllers/auth_controller.dart';
 import 'package:flutter/services.dart';
 import '../components/navbar.dart';
 import '../core/theme.dart';
 import '../models/laundry.dart';
 import '../pages/katalog_laundry_page.dart';
 import '../pages/detail_laundry_page.dart';
+import '../views/login_view.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -17,6 +19,9 @@ class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
   final TextEditingController searchC = TextEditingController();
   final FocusNode searchFocus = FocusNode();
+
+  // Mengambil data user yang sedang login dari AuthController milik temanmu
+  final user = AuthController.instance.currentUser;
 
   List<Laundry> get hasilPencarian {
     final kataKunci = searchC.text.toLowerCase().trim();
@@ -54,6 +59,16 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  // Fungsi Logout terhubung dengan AuthController temanmu
+  void _logout() {
+    AuthController.instance.logout();
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginView()),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final hasil = hasilPencarian;
@@ -69,12 +84,23 @@ class _DashboardViewState extends State<DashboardView> {
           'Luvo',
           style: AppFonts.heading(size: 20, color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Keluar',
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Text('Selamat Datang', style: AppFonts.heading(size: 23)),
+            // SAPAAN DENGAN NAMA DARI AUTH CONTROLLER TEMAN
+            Text(
+              'Selamat Datang, ${user?.name ?? 'User'}!',
+              style: AppFonts.heading(size: 23),
+            ),
             const SizedBox(height: 6),
             Text(
               'Temukan layanan laundry terbaik untuk kebutuhanmu.',
@@ -97,7 +123,10 @@ class _DashboardViewState extends State<DashboardView> {
               decoration: InputDecoration(
                 hintText: 'Cari nama atau lokasi laundry...',
                 hintStyle: AppFonts.body(color: Colors.grey),
-                prefixIcon: const Icon(Icons.search, color: AppColors.secondary),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.secondary,
+                ),
                 suffixIcon: searchC.text.isNotEmpty
                     ? IconButton(
                         onPressed: () {
