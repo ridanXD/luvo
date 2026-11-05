@@ -57,28 +57,17 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   List<Pesanan> get pesananMasuk => [
-        Pesanan(
-          namaPelanggan: 'Dina',
+      Pesanan(
+          namaPelanggan: namaPelangganDummy,
           alamat: alamatDummy,
-          jarakKm: 1.5,
+          jarakKm: jarakDummy,
           layanan: daftarLayanan[1],
           beratKg: 3.5,
           catatan: 'Pisahkan pakaian putih',
           tanggalJemput: DateTime.now(),
           jamJemput: '08.00 - 10.00',
           jamAntar: jamAntarDefault,
-        ),
-        Pesanan(
-          namaPelanggan: 'Bima',
-          alamat: 'Jl. Cikutra No. 24, Bandung',
-          jarakKm: 3.2,
-          layanan: daftarLayanan[0],
-          beratKg: 2,
-          catatan: 'Gunakan pewangi lembut',
-          tanggalJemput: DateTime.now(),
-          jamJemput: '13.00 - 15.00',
-          jamAntar: jamAntarDefault,
-        ),
+        )
       ];
 
   Widget _kartuPesananMasuk(Pesanan pesanan) {
