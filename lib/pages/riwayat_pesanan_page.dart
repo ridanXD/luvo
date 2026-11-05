@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
@@ -33,10 +32,14 @@ class _RiwayatPesananPageState extends State<RiwayatPesananPage> {
 
   @override
   Widget build(BuildContext context) {
-    final pesananTampil = daftarPesanan.where((p) =>
-        filter == 'Semua' ||
-        (filter == 'Diproses' && p['status'] != 'Selesai') ||
-        (filter == 'Selesai' && p['status'] == 'Selesai')).toList();
+    final pesananTampil = daftarPesanan
+        .where(
+          (p) =>
+              filter == 'Semua' ||
+              (filter == 'Diproses' && p['status'] != 'Selesai') ||
+              (filter == 'Selesai' && p['status'] == 'Selesai'),
+        )
+        .toList();
 
     return Scaffold(
       backgroundColor: AppColors.putih,

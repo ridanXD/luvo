@@ -125,8 +125,10 @@ class _KatalogLaundryPageState extends State<KatalogLaundryPage> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Text('Lokasi: ${laundry.lokasi}',
-                                style: AppFonts.body()),
+                            Text(
+                              'Lokasi: ${laundry.lokasi}',
+                              style: AppFonts.body(),
+                            ),
                             Text(
                               'Jam Operasional: ${laundry.jamOperasional}',
                               style: AppFonts.body(),
@@ -152,7 +154,8 @@ class _KatalogLaundryPageState extends State<KatalogLaundryPage> {
                                 child: Text(
                                   'Lihat Detail',
                                   style: AppFonts.body(
-                                      color: AppColors.secondary),
+                                    color: AppColors.secondary,
+                                  ),
                                 ),
                               ),
                             ),

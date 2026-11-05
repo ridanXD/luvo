@@ -53,7 +53,11 @@ class _RegisterViewState extends State<RegisterView> {
     if (err != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
     } else {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashboardView()), (_) => false);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const DashboardView()),
+        (_) => false,
+      );
     }
   }
 
@@ -61,7 +65,11 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: AppColors.secondary)),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: AppColors.secondary),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -69,7 +77,10 @@ class _RegisterViewState extends State<RegisterView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text('Daftar Akun', style: AppFonts.heading(size: 28)),
-              Text('Pilih peran sebagai User atau Merchant', style: AppFonts.body(color: Colors.grey)),
+              Text(
+                'Pilih peran sebagai User atau Merchant',
+                style: AppFonts.body(color: Colors.grey),
+              ),
               const SizedBox(height: 24),
               TextField(
                 controller: nameC,
@@ -84,14 +95,19 @@ class _RegisterViewState extends State<RegisterView> {
                 style: AppFonts.body(),
                 decoration: InputDecoration(
                   labelText: 'Nama Lengkap',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                    borderSide: const BorderSide(
+                      color: AppColors.secondary,
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
@@ -111,14 +127,19 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   hintText: 'contoh@email.com',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                    borderSide: const BorderSide(
+                      color: AppColors.secondary,
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
@@ -137,14 +158,19 @@ class _RegisterViewState extends State<RegisterView> {
                 style: AppFonts.body(),
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                    borderSide: const BorderSide(
+                      color: AppColors.secondary,
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
@@ -155,7 +181,9 @@ class _RegisterViewState extends State<RegisterView> {
                 children: [
                   Expanded(
                     child: ChoiceChip(
-                      label: Center(child: Text('User', style: AppFonts.body())),
+                      label: Center(
+                        child: Text('User', style: AppFonts.body()),
+                      ),
                       selected: role == 'user',
                       selectedColor: AppColors.primary,
                       onSelected: (_) => setState(() => role = 'user'),
@@ -164,7 +192,9 @@ class _RegisterViewState extends State<RegisterView> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: ChoiceChip(
-                      label: Center(child: Text('Merchant', style: AppFonts.body())),
+                      label: Center(
+                        child: Text('Merchant', style: AppFonts.body()),
+                      ),
                       selected: role == 'merchant',
                       selectedColor: AppColors.primary,
                       onSelected: (_) => setState(() => role = 'merchant'),
@@ -183,7 +213,10 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
                 onPressed: _register,
-                child: Text('Daftar Sekarang', style: AppFonts.heading(size: 16, color: Colors.white)),
+                child: Text(
+                  'Daftar Sekarang',
+                  style: AppFonts.heading(size: 16, color: Colors.white),
+                ),
               ),
             ],
           ),
