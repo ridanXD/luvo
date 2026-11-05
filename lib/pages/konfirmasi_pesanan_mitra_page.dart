@@ -8,7 +8,9 @@ import '../utils/format_tanggal.dart';
 import '../widgets/kartu_bagian.dart';
 
 class KonfirmasiPesananMitraPage extends StatefulWidget {
-  const KonfirmasiPesananMitraPage({super.key});
+  final Pesanan? pesanan;
+
+  const KonfirmasiPesananMitraPage({super.key, this.pesanan});
 
   @override
   State<KonfirmasiPesananMitraPage> createState() =>
@@ -17,19 +19,26 @@ class KonfirmasiPesananMitraPage extends StatefulWidget {
 
 class _KonfirmasiPesananMitraPageState
     extends State<KonfirmasiPesananMitraPage> {
-  final Pesanan pesanan = Pesanan(
-    namaPelanggan: namaPelangganDummy,
-    alamat: alamatDummy,
-    jarakKm: jarakDummy,
-    layanan: daftarLayanan[1],
-    beratKg: 3.5,
-    catatan: 'Pisahkan pakaian putih',
-    tanggalJemput: DateTime.now(),
-    jamJemput: '08.00 - 10.00',
-    jamAntar: jamAntarDefault,
-  );
+  late final Pesanan pesanan;
 
   final alasanController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    pesanan = widget.pesanan ??
+        Pesanan(
+          namaPelanggan: namaPelangganDummy,
+          alamat: alamatDummy,
+          jarakKm: jarakDummy,
+          layanan: daftarLayanan[1],
+          beratKg: 3.5,
+          catatan: 'Pisahkan pakaian putih',
+          tanggalJemput: DateTime.now(),
+          jamJemput: '08.00 - 10.00',
+          jamAntar: jamAntarDefault,
+        );
+  }
 
   @override
   void dispose() {

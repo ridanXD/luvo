@@ -6,41 +6,41 @@ class Navbar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int>? onTap;
 
-  const Navbar({
-    super.key,
-    this.currentIndex = 0,
-    this.onTap,
-  });
+  const Navbar({super.key, this.currentIndex = 0, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: onTap,
-      backgroundColor: AppColors.putih,
-      selectedItemColor: AppColors.secondary,
-      unselectedItemColor: AppColors.teksAbu,
-      selectedLabelStyle: GoogleFonts.plusJakartaSans(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
       ),
-      unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-        fontSize: 12,
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentIndex,
+        onTap: onTap,
+        backgroundColor: AppColors.putih,
+        selectedItemColor: AppColors.secondary,
+        unselectedItemColor: AppColors.teksAbu,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        enableFeedback: false,
+        selectedLabelStyle: GoogleFonts.plusJakartaSans(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: GoogleFonts.plusJakartaSans(fontSize: 12),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long),
+            label: 'Order',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
       ),
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.receipt_long),
-          label: 'Order',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
     );
   }
 }

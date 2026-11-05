@@ -48,7 +48,10 @@ class _LoginViewState extends State<LoginView> {
     if (err != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const DashboardView()));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const DashboardView()),
+      );
     }
   }
 
@@ -65,7 +68,10 @@ class _LoginViewState extends State<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text('Masuk', style: AppFonts.heading(size: 28)),
-                Text('Silakan login ke akun Anda', style: AppFonts.body(color: Colors.grey)),
+                Text(
+                  'Silakan login ke akun Anda',
+                  style: AppFonts.body(color: Colors.grey),
+                ),
                 const SizedBox(height: 24),
                 TextField(
                   controller: emailC,
@@ -82,14 +88,19 @@ class _LoginViewState extends State<LoginView> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'contoh@email.com',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                      borderSide: const BorderSide(
+                        color: AppColors.secondary,
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),
@@ -108,14 +119,19 @@ class _LoginViewState extends State<LoginView> {
                   style: AppFonts.body(),
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(color: Color(0xFFDCDCDC)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+                      borderSide: const BorderSide(
+                        color: AppColors.secondary,
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),
@@ -130,12 +146,21 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   onPressed: _login,
-                  child: Text('Login', style: AppFonts.heading(size: 16, color: Colors.white)),
+                  child: Text(
+                    'Login',
+                    style: AppFonts.heading(size: 16, color: Colors.white),
+                  ),
                 ),
                 const SizedBox(height: 12),
                 TextButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterView())),
-                  child: Text('Belum punya akun? Daftar', style: AppFonts.body(color: AppColors.secondary)),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const RegisterView()),
+                  ),
+                  child: Text(
+                    'Belum punya akun? Daftar',
+                    style: AppFonts.body(color: AppColors.secondary),
+                  ),
                 ),
               ],
             ),
