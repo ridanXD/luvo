@@ -10,7 +10,7 @@ import '../pages/order_menu_page.dart';
 import '../pages/katalog_laundry_page.dart' show daftarLaundry;
 import '../pages/detail_laundry_page.dart';
 import '../pages/konfirmasi_pesanan_mitra_page.dart';
-import '../views/login_view.dart';
+import 'login_view.dart';
 import 'profile_view.dart';
 
 class DashboardView extends StatefulWidget {

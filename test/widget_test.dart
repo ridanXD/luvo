@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:luvo/main.dart';
-import 'package:luvo/views/dashboard_view.dart';
+import 'package:luvo/pages/dashboard_view.dart';
 
 void main() {
   testWidgets('Smoke test login screen render with rounded textfields', (WidgetTester tester) async {
