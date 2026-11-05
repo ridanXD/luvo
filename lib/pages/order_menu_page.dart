@@ -5,6 +5,7 @@ import 'buat_pesanan_page.dart';
 import 'konfirmasi_pesanan_mitra_page.dart';
 import 'status_pesanan_page.dart';
 import 'riwayat_pesanan_page.dart';
+import '../controllers/auth_controller.dart';
 
 class OrderMenuPage extends StatelessWidget {
   const OrderMenuPage({super.key});
@@ -15,6 +16,7 @@ class OrderMenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMerchant = AuthController.instance.currentUser?.role == 'merchant';
     final menu = [
       {
         'judul': 'Buat Pesanan',
@@ -40,7 +42,11 @@ class OrderMenuPage extends StatelessWidget {
         'icon': Icons.history,
         'halaman': RiwayatPesananPage(),
       },
-    ];
+    ].where((item) {
+      return !isMerchant ||
+          item['judul'] == 'Status Pesanan' ||
+          item['judul'] == 'Riwayat Pesanan';
+    }).toList();
 
     return Scaffold(
       backgroundColor: AppColors.putih,
