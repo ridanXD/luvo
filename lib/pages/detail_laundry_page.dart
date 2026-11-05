@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/laundry.dart';
+import 'buat_pesanan_page.dart';
 
 class DetailLaundryPage extends StatelessWidget {
   final Laundry laundry;
@@ -17,6 +18,22 @@ class DetailLaundryPage extends StatelessWidget {
         title: Text(
           'Detail Laundry',
           style: AppFonts.heading(size: 18, color: Colors.white),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BuatPesananPage(),
+                ),
+              );
+            },
+            child: const Text('Buat Pesanan'),
+          ),
         ),
       ),
       body: SingleChildScrollView(

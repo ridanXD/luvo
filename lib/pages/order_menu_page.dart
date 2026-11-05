@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import '../components/navbar.dart';
 import '../theme/app_colors.dart';
-import 'buat_pesanan_page.dart';
-import 'konfirmasi_pesanan_mitra_page.dart';
 import 'status_pesanan_page.dart';
 import 'riwayat_pesanan_page.dart';
-import '../controllers/auth_controller.dart';
 
 class OrderMenuPage extends StatelessWidget {
   const OrderMenuPage({super.key});
@@ -16,20 +12,7 @@ class OrderMenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMerchant = AuthController.instance.currentUser?.role == 'merchant';
     final menu = [
-      {
-        'judul': 'Buat Pesanan',
-        'deskripsi': 'Buat pesanan laundry baru',
-        'icon': Icons.add_shopping_cart,
-        'halaman': BuatPesananPage(),
-      },
-      {
-        'judul': 'Konfirmasi Pesanan',
-        'deskripsi': 'Lihat konfirmasi pesanan',
-        'icon': Icons.receipt_long,
-        'halaman': KonfirmasiPesananMitraPage(),
-      },
       {
         'judul': 'Status Pesanan',
         'deskripsi': 'Pantau proses pesanan laundry',
@@ -42,11 +25,7 @@ class OrderMenuPage extends StatelessWidget {
         'icon': Icons.history,
         'halaman': RiwayatPesananPage(),
       },
-    ].where((item) {
-      return !isMerchant ||
-          item['judul'] == 'Status Pesanan' ||
-          item['judul'] == 'Riwayat Pesanan';
-    }).toList();
+    ];
 
     return Scaffold(
       backgroundColor: AppColors.putih,
@@ -58,6 +37,7 @@ class OrderMenuPage extends StatelessWidget {
         backgroundColor: AppColors.secondary,
         foregroundColor: Colors.white,
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -98,18 +78,6 @@ class OrderMenuPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: Navbar(
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pop(context);
-          } else if (index == 2) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Halaman Profile belum tersedia')),
-            );
-          }
-        },
       ),
     );
   }
