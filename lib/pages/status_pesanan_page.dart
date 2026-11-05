@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../controllers/auth_controller.dart';
 import '../theme/app_colors.dart';
 
 class StatusPesananPage extends StatefulWidget {
@@ -29,17 +30,22 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
     'Sel, 3 Nov · 16.00',
   ];
 
+  void _maju() {
+    if (currentStep < status.length - 1) {
+      setState(() => currentStep++);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isMerchant = AuthController.instance.currentUser?.role == 'merchant';
+
     return Scaffold(
       backgroundColor: AppColors.putih,
       appBar: AppBar(
         title: const Text(
           'Status Pesanan',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: AppColors.secondary,
         foregroundColor: AppColors.putih,
@@ -50,9 +56,9 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
         children: [
           Text(
             'Ilham Laundry',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.secondary,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(color: AppColors.secondary),
           ),
           const SizedBox(height: 12),
           Text(
@@ -62,10 +68,7 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
           const SizedBox(height: 4),
           Text(
             'Terakhir diperbarui: ${waktu[currentStep]}',
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.teksAbu,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.teksAbu),
           ),
           const SizedBox(height: 20),
           Container(
@@ -87,8 +90,8 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
                           i < currentStep
                               ? Icons.check_circle
                               : i == currentStep
-                                  ? Icons.radio_button_checked
-                                  : Icons.circle_outlined,
+                              ? Icons.radio_button_checked
+                              : Icons.circle_outlined,
                           color: selesai
                               ? AppColors.secondary
                               : AppColors.teksAbu,
@@ -138,6 +141,22 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
               }),
             ),
           ),
+          if (isMerchant) ...[
+            const SizedBox(height: 20),
+            currentStep == status.length - 1
+                ? const Center(child: Text('Pesanan selesai'))
+                : SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: _maju,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.secondary,
+                        foregroundColor: AppColors.putih,
+                      ),
+                      child: const Text('Perbarui Status'),
+                    ),
+                  ),
+          ],
         ],
       ),
     );
