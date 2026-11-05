@@ -20,7 +20,6 @@ class _DashboardViewState extends State<DashboardView> {
   final TextEditingController searchC = TextEditingController();
   final FocusNode searchFocus = FocusNode();
 
-  // Mengambil data user yang sedang login dari AuthController milik temanmu
   final user = AuthController.instance.currentUser;
 
   List<Laundry> get hasilPencarian {
@@ -59,7 +58,6 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  // Fungsi Logout terhubung dengan AuthController temanmu
   void _logout() {
     AuthController.instance.logout();
     Navigator.pushAndRemoveUntil(
@@ -96,7 +94,6 @@ class _DashboardViewState extends State<DashboardView> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            // SAPAAN DENGAN NAMA DARI AUTH CONTROLLER TEMAN
             Text(
               'Selamat Datang, ${user?.name ?? 'User'}!',
               style: AppFonts.heading(size: 23),
