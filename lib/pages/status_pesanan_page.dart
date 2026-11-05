@@ -3,13 +3,13 @@ import '../theme/app_colors.dart';
 
 class StatusPesananPage extends StatefulWidget {
   const StatusPesananPage({super.key});
+
   @override
   State<StatusPesananPage> createState() => _StatusPesananPageState();
 }
 
 class _StatusPesananPageState extends State<StatusPesananPage> {
   int currentStep = 3;
-  bool isMitra = true;
 
   final status = [
     'Menunggu Konfirmasi',
@@ -29,8 +29,6 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
     'Sel, 3 Nov · 16.00',
   ];
 
-  void _maju() => setState(() => currentStep++);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,31 +36,36 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
       appBar: AppBar(
         title: const Text(
           'Status Pesanan',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: AppColors.secondary,
         foregroundColor: AppColors.putih,
-        surfaceTintColor: AppColors.secondary,
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Text(
             'Ilham Laundry',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(color: AppColors.secondary),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Pesanan LV-001',
-            style: TextStyle(color: AppColors.teksAbu),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.secondary,
+            ),
           ),
           const SizedBox(height: 12),
           Text(
             'Status: ${status[currentStep]}',
             style: const TextStyle(color: AppColors.secondary),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Terakhir diperbarui: ${waktu[currentStep]}',
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.teksAbu,
+            ),
           ),
           const SizedBox(height: 20),
           Container(
@@ -74,17 +77,18 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
             child: Column(
               children: List.generate(status.length, (i) {
                 final selesai = i <= currentStep;
+
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                       children: [
                         Icon(
-                          currentStep == status.length - 1 || i < currentStep
+                          i < currentStep
                               ? Icons.check_circle
                               : i == currentStep
-                              ? Icons.radio_button_checked
-                              : Icons.circle_outlined,
+                                  ? Icons.radio_button_checked
+                                  : Icons.circle_outlined,
                           color: selesai
                               ? AppColors.secondary
                               : AppColors.teksAbu,
@@ -134,18 +138,6 @@ class _StatusPesananPageState extends State<StatusPesananPage> {
               }),
             ),
           ),
-          const SizedBox(height: 20),
-          if (isMitra)
-            currentStep == status.length - 1
-                ? const Center(child: Text('Pesanan selesai'))
-                : FilledButton(
-                    onPressed: _maju,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.secondary,
-                      foregroundColor: AppColors.putih,
-                    ),
-                    child: Text(status[currentStep + 1]),
-                  ),
         ],
       ),
     );
