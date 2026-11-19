@@ -7,21 +7,12 @@ import '../theme/app_fonts.dart';
 import '../models/laundry.dart';
 import '../models/pesanan.dart';
 import '../data/dummy_pesanan.dart';
-<<<<<<<< HEAD:lib/pages/dashboard_view.dart
-import '../pages/order_menu_page.dart';
-import '../pages/katalog_laundry_page.dart' show daftarLaundry;
-import '../pages/detail_laundry_page.dart';
-import '../pages/konfirmasi_pesanan_mitra_page.dart';
-import 'login_view.dart';
-import 'profile_view.dart';
-========
 import 'order_menu_page.dart';
 import 'katalog_laundry_page.dart' show daftarLaundry;
 import 'detail_laundry_page.dart';
 import 'konfirmasi_pesanan_mitra_page.dart';
 import 'login_page.dart';
 import 'profile_page.dart';
->>>>>>>> 5483dde (refactor: satukan struktur folder lib dan seragamkan penamaan file page):lib/pages/dashboard_page.dart
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
