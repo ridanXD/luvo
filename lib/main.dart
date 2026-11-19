@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
-import 'pages/login_view.dart';
+import 'pages/login_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Luvo App',
       theme: AppTheme.lightTheme,
-      home: const LoginView(),
+      home: const LoginPage(),
     );
   }
 }

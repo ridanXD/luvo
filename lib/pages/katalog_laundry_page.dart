@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_fonts.dart';
 import '../models/laundry.dart';
 import 'detail_laundry_page.dart';
 

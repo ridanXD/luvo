@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
-import '../core/theme.dart';
-import 'login_view.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_fonts.dart';
+import 'login_page.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   void _logout(BuildContext context) {
     AuthController.instance.logout();
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (_) => const LoginView()),
+      MaterialPageRoute(builder: (_) => const LoginPage()),
       (route) => false,
     );
   }

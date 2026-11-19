@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
 import 'package:flutter/services.dart';
-import '../components/navbar.dart';
-import '../core/theme.dart';
+import '../widgets/navbar.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_fonts.dart';
 import '../models/laundry.dart';
 import '../models/pesanan.dart';
 import '../data/dummy_pesanan.dart';
+<<<<<<<< HEAD:lib/pages/dashboard_view.dart
 import '../pages/order_menu_page.dart';
 import '../pages/katalog_laundry_page.dart' show daftarLaundry;
 import '../pages/detail_laundry_page.dart';
 import '../pages/konfirmasi_pesanan_mitra_page.dart';
 import 'login_view.dart';
 import 'profile_view.dart';
+========
+import 'order_menu_page.dart';
+import 'katalog_laundry_page.dart' show daftarLaundry;
+import 'detail_laundry_page.dart';
+import 'konfirmasi_pesanan_mitra_page.dart';
+import 'login_page.dart';
+import 'profile_page.dart';
+>>>>>>>> 5483dde (refactor: satukan struktur folder lib dan seragamkan penamaan file page):lib/pages/dashboard_page.dart
 
-class DashboardView extends StatefulWidget {
-  const DashboardView({super.key});
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
 
   @override
-  State<DashboardView> createState() => _DashboardViewState();
+  State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardViewState extends State<DashboardView> {
+class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
   final TextEditingController searchC = TextEditingController();
   final FocusNode searchFocus = FocusNode();
@@ -229,7 +239,7 @@ class _DashboardViewState extends State<DashboardView> {
     AuthController.instance.logout();
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => const LoginView()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
       (route) => false,
     );
   }
@@ -245,7 +255,7 @@ class _DashboardViewState extends State<DashboardView> {
         children: [
           _buildHome(isMerchant),
           const OrderMenuPage(),
-          const ProfileView(),
+          const ProfilePage(),
         ],
       ),
       bottomNavigationBar: Navbar(

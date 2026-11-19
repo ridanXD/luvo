@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:luvo/main.dart';
-import 'package:luvo/pages/dashboard_view.dart';
+import 'package:luvo/pages/dashboard_page.dart';
 
 void main() {
   testWidgets('Smoke test login screen render with rounded textfields', (WidgetTester tester) async {
@@ -32,7 +32,7 @@ void main() {
 
   testWidgets('Dashboard displays Selamat Datang without Role: User', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(
-      home: DashboardView(),
+      home: DashboardPage(),
     ));
 
     // Verify 'Selamat Datang' is present

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../controllers/auth_controller.dart';
-import '../core/theme.dart';
-import 'dashboard_view.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_fonts.dart';
+import 'dashboard_page.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _RegisterPageState extends State<RegisterPage> {
   final nameC = TextEditingController();
   final emailC = TextEditingController();
   final passC = TextEditingController();
@@ -55,7 +56,7 @@ class _RegisterViewState extends State<RegisterView> {
     } else {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (_) => const DashboardView()),
+        MaterialPageRoute(builder: (_) => const DashboardPage()),
         (_) => false,
       );
     }

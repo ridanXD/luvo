@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../controllers/auth_controller.dart';
-import '../core/theme.dart';
-import 'dashboard_view.dart';
-import 'register_view.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_fonts.dart';
+import 'dashboard_page.dart';
+import 'register_page.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginPageState extends State<LoginPage> {
   final emailC = TextEditingController();
   final passC = TextEditingController();
   final emailFocus = FocusNode();
@@ -50,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const DashboardView()),
+        MaterialPageRoute(builder: (_) => const DashboardPage()),
       );
     }
   }
@@ -155,7 +156,7 @@ class _LoginViewState extends State<LoginView> {
                 TextButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const RegisterView()),
+                    MaterialPageRoute(builder: (_) => const RegisterPage()),
                   ),
                   child: Text(
                     'Belum punya akun? Daftar',
